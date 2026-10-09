@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Combined Equipment Criteria</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Combined Equipment Criteria</h1>
+      <form id="controls">
+        <label
+          >Minimum battery
+          <input
+            id="minimum"
+            type="number"
+            min="0"
+            max="100"
+            step="1"
+            value="50"
+            required /></label
+        ><label><input id="laptops" type="checkbox" /> Laptops only</label
+        ><button type="submit">Run Selection</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Available</th>
+            <th>Battery</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>E01</td>
+            <td>Laptop</td>
+            <td>Yes</td>
+            <td>80</td>
+          </tr>
+          <tr>
+            <td>E02</td>
+            <td>Tablet</td>
+            <td>Yes</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>E03</td>
+            <td>Laptop</td>
+            <td>No</td>
+            <td>90</td>
+          </tr>
+          <tr>
+            <td>E04</td>
+            <td>Laptop</td>
+            <td>Yes</td>
+            <td>50</td>
+          </tr>
+        </tbody>
+      </table>
+      <pre id="result" aria-live="polite"></pre>
+      <a href="../README.md">Python demo</a>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

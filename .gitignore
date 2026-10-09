@@ -1,0 +1,12 @@
+# Runtime and local environments
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.env
+.env.*
+
+# Instructor-only material must not enter student releases
+**/notes.md
+Planning/
+**/solution/
