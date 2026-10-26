@@ -14,6 +14,13 @@ py -3.14 main.py
 
 On systems without the Windows Python launcher, use `python main.py` with a Python 3.14 interpreter. Target: Python 3.14.6; verified locally on Python 3.14.7. No third-party packages, network access, web framework, or sibling-demo imports are required. Fixtures are embedded in `main.py`; the program does not write files.
 
+## Documented Companion
+
+[main2.py](main2.py) contains the same executable code and output as main.py,
+with detailed comments connecting representation choice, set membership,
+identity, filtering, and independent flat copies to Monday's lecture.
+Use main.py for the uncluttered view or run `py -3.14 main2.py` for the documented version.
+
 ## Contract
 
 Duplicate IDs are rejected. Indexed records are independent flat copies; this is not a general nested deep-copy guarantee.

@@ -14,6 +14,13 @@ py -3.14 main.py
 
 On systems without the Windows Python launcher, use `python main.py` with a Python 3.14 interpreter. Target: Python 3.14.6; verified locally on Python 3.14.7. No third-party packages, network access, web framework, or sibling-demo imports are required. Fixtures are embedded in `main.py`; the program does not write files.
 
+## Documented Companion
+
+[main2.py](main2.py) contains the same executable code and output as main.py,
+with detailed comments connecting FIFO requests, LIFO history, local aliases,
+and complete restoration to Tuesday's lecture and its four-row state example.
+Use main.py for the uncluttered view or run `py -3.14 main2.py` for the documented version.
+
 ## Contract
 
 Undo restores availability and places the consumed request at the queue front. Only successful checkout actions are reversible.
