@@ -59,9 +59,12 @@ def fixture():
 
 def main():
     """Show insertion-sort steps, stable ties, changed keys, and a merge contrast."""
+    print("\n===================================================================")
     print("STABLE RECORD SORTING: ascending battery; input list is not mutated")
+    print("===================================================================\n")
+
     print(
-        "Callable key contract: battery_key or id_key; the sorting loop stays unchanged."
+        "Callable key contract: battery_key or id_key; the sorting loop stays unchanged.\n"
     )
     rows = fixture()
     print("Input:", [(row["id"], row["battery"]) for row in rows])
