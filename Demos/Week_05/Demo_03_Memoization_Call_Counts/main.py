@@ -56,7 +56,9 @@ def cached_fibonacci(n):
 def main():
     """Read the bounded input and present equivalent answers with call evidence."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--n", type=int, default=10, help="Fibonacci input, 0–20 (default: 10)")
+    parser.add_argument(
+        "--n", type=int, default=10, help="Fibonacci input, 0–20 (default: 10)"
+    )
     args = parser.parse_args()
     try:
         validate(args.n)
@@ -66,7 +68,8 @@ def main():
         "\n===================================================================",
         "heading",
     )
-    print_color("MEMOIZATION: reuse an answer already calculated", "heading")    print_color(
+    print_color("MEMOIZATION: reuse an answer already calculated", "heading")
+    print_color(
         "===================================================================\n",
         "heading",
     )
