@@ -19,6 +19,10 @@ On systems without the Windows Python launcher, use `python main.py` with a Pyth
 
 Optional: `py -3.14 main.py --n 5` (n range 0-20; default 10).
 
+Add `--trace` to show each recursive call, each cache hit, and the complete
+cache after every new value is stored. For a short trace, try
+`py -3.14 main.py --n 3 --trace`. Without `--trace`, output is unchanged.
+
 ## Contract
 
 F(0)=0 and F(1)=1. Integer n is 0 through 20; every comparison starts with a fresh cache.
@@ -33,6 +37,8 @@ F(0)=0 and F(1)=1. Integer n is 0 through 20; every comparison starts with a fre
 The public functions create fresh state and preserve their result contracts:
 `(result, calls)` and `(result, calls, hits, cache)`. Cache/counter dictionaries
 are explicitly passed to recursive helpers; no nested function or nonlocal is used.
+The optional `trace=True` argument to `cached_fibonacci` prints helper calls,
+cache hits, and the cumulative cache after stores.
 
 `main()` presents the demonstration. Run `py -3.14 test_demo.py` separately for regression checks; a successful test run ends with `Checks passed.` Do not use Python's `-O` flag for verification.
 

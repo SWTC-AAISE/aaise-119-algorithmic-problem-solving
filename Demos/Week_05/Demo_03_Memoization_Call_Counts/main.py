@@ -28,28 +28,34 @@ def uncached_fibonacci(n):
     return result, counts["calls"]
 
 
-def calculate_cached(n, cache, counts):
+def calculate_cached(n, cache, counts, trace=False):
     """Reuse a saved result or compute and store it, counting calls and hits."""
+    if trace:
+        print(f"TRACE: call F({n})")
     counts["calls"] += 1
     if n in cache:
         counts["hits"] += 1
+        if trace:
+            print(f"TRACE: cache hit F({n}) = {cache[n]}")
         return cache[n]
     if n < 2:
         result = n
     else:
-        previous = calculate_cached(n - 1, cache, counts)
-        earlier = calculate_cached(n - 2, cache, counts)
+        previous = calculate_cached(n - 1, cache, counts, trace)
+        earlier = calculate_cached(n - 2, cache, counts, trace)
         result = previous + earlier
     cache[n] = result
+    if trace:
+        print(f"TRACE: store F({n}) = {result}; cache={cache}")
     return result
 
 
-def cached_fibonacci(n):
+def cached_fibonacci(n, *, trace=False):
     """Return the result, calls, hits, and an independent cache for this run."""
     validate(n)
     cache = {}
     counts = {"calls": 0, "hits": 0}
-    result = calculate_cached(n, cache, counts)
+    result = calculate_cached(n, cache, counts, trace)
     return result, counts["calls"], counts["hits"], cache
 
 
@@ -58,6 +64,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--n", type=int, default=10, help="Fibonacci input, 0–20 (default: 10)"
+    )
+    parser.add_argument(
+        "--trace",
+        action="store_true",
+        help="show recursive calls, cache hits, and the cache after each store",
     )
     args = parser.parse_args()
     try:
@@ -74,7 +85,7 @@ def main():
         "heading",
     )
     result, plain_calls = uncached_fibonacci(args.n)
-    cached_result, calls, hits, cache = cached_fibonacci(args.n)
+    cached_result, calls, hits, cache = cached_fibonacci(args.n, trace=args.trace)
     print_color(f"F({args.n})={result}", "success")
     print(f"Answer with memoization: {cached_result}")
     print(f"Calls without memoization: {plain_calls}")

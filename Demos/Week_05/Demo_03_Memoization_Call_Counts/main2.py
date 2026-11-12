@@ -37,13 +37,18 @@ def uncached_fibonacci(n):
     return result, counts["calls"]
 
 
-def calculate_cached(n, cache, counts):
+def calculate_cached(n, cache, counts, trace=False):
     """Reuse a saved result or compute and store it, counting calls and hits."""
+    # Optional trace output makes each recursive call visible.
+    if trace:
+        print(f"TRACE: call F({n})")
     # Count this helper invocation before checking for a direct or saved answer.
     counts["calls"] += 1
     # HIT: this input already has a saved answer; skip its two recursive branches.
     if n in cache:
         counts["hits"] += 1
+        if trace:
+            print(f"TRACE: cache hit F({n}) = {cache[n]}")
         return cache[n]
     # F(0)=0 and F(1)=1 can be answered without another recursive call.
     if n < 2:
@@ -51,15 +56,18 @@ def calculate_cached(n, cache, counts):
     else:
         # Pass the same cache/counter objects down both branches without copying them.
         # A branch that revisits an input can use an answer saved by an earlier branch.
-        previous = calculate_cached(n - 1, cache, counts)
-        earlier = calculate_cached(n - 2, cache, counts)
+        previous = calculate_cached(n - 1, cache, counts, trace)
+        earlier = calculate_cached(n - 2, cache, counts, trace)
         result = previous + earlier
     # MISS: save the newly obtained answer under its input, including base cases.
     cache[n] = result
+    # The dictionary repr shows the cumulative cache immediately after each store.
+    if trace:
+        print(f"TRACE: store F({n}) = {result}; cache={cache}")
     return result
 
 
-def cached_fibonacci(n):
+def cached_fibonacci(n, *, trace=False):
     """Return the result, calls, hits, and an independent cache for this run."""
     validate(n)
     # Separate initialization replaces the former packed cache/calls/hits assignment.
@@ -67,7 +75,7 @@ def cached_fibonacci(n):
     cache = {}
     # Named counters make their meanings explicit; each run receives its own state.
     counts = {"calls": 0, "hits": 0}
-    result = calculate_cached(n, cache, counts)
+    result = calculate_cached(n, cache, counts, trace)
     # Return the actual per-run cache so tests can inspect its entries/independence.
     return result, counts["calls"], counts["hits"], cache
 
@@ -77,6 +85,11 @@ def main():
     # Supplied interface: introduce this wiring in the bounded argparse lesson.
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--n", type=int, default=10, help="Fibonacci input, 0–20 (default: 10)")
+    parser.add_argument(
+        "--trace",
+        action="store_true",
+        help="show recursive calls, cache hits, and the cache after each store",
+    )
     # Read the command line; --help is supplied automatically by argparse.
     args = parser.parse_args()
     try:
@@ -89,7 +102,7 @@ def main():
     # Unpack two returned values; this is assignment syntax, not a caching feature.
     result, plain_calls = uncached_fibonacci(args.n)
     # Run with the same n and unpack four documented results in the same order.
-    cached_result, calls, hits, cache = cached_fibonacci(args.n)
+    cached_result, calls, hits, cache = cached_fibonacci(args.n, trace=args.trace)
     print_color(f"F({args.n})={result}", "success")
     print(f"Answer with memoization: {cached_result}")
     print(f"Calls without memoization: {plain_calls}")
