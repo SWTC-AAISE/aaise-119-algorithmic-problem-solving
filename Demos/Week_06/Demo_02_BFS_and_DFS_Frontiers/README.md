@@ -45,6 +45,13 @@ so far column includes completed visits. Those membership labels are alphabetica
 not discovery order. DFS can have duplicate pending entries and skips ones already
 processed; keep that guard brief rather than turning anomalies into another topic.
 
+Two compact tables follow the unchanged Teaching views: one for the BFS queue
+(front to rear), then one for the DFS stack (bottom to top). Step 0 shows the
+initial structure; subsequent rows show its actual contents after processing the
+named building and adding its eligible neighbors. `[]` means empty. Duplicate
+DFS entries remain visible; the last visit can leave an already-processed entry
+that is later skipped.
+
 Core adjacency traversal has introductory O(V + E) work; copied frontier snapshots
 and sorted labels add teaching overhead. Ten adjacency entries represent five
 undirected connections here. No benchmark or timing exercise is required.
@@ -78,6 +85,26 @@ Step  Processed  Pending (stored order)         Processed so far (alphabetical)
 4     Studio     Lab, Lab                       Atrium, Cafe, Library, Studio
 5     Lab        Lab                            Atrium, Cafe, Lab, Library, Studio
 Rows show new visits; DFS skips any remaining already-processed entries.
+
+BFS queue: FRONT -> REAR
+Removes the front item, then adds newly discovered neighbors at the rear.
+Step  Processed  Contents
+0     (start)    [Library]
+1     Library    [Atrium, Lab]
+2     Atrium     [Lab, Cafe]
+3     Lab        [Cafe, Studio]
+4     Cafe       [Studio]
+5     Studio     []
+
+DFS stack: BOTTOM -> TOP
+Removes the top item, then pushes eligible neighbors onto the top.
+Step  Processed  Contents
+0     (start)    [Library]
+1     Library    [Lab, Atrium]
+2     Atrium     [Lab, Cafe]
+3     Cafe       [Lab, Studio]
+4     Studio     [Lab, Lab]
+5     Lab        [Lab]
 
 Adjacency entries examined: BFS 10; DFS 10.
 Each of the five undirected connections has two adjacency entries.

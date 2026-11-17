@@ -24,3 +24,14 @@ def show_trace(title, trace, seen_label):
             pending = "(empty)"
         seen = ", ".join(step["seen"])
         print(f"{index:<6}{step['processed']:<11}{pending:<30} {seen}")
+
+
+def show_frontier(title, trace, start, descriptor):
+    """Print the initial frontier and its stored contents after each new visit."""
+    print_color("\n" + title, "heading")
+    print(descriptor)
+    print("Step  Processed  Contents")
+    print(f"{0:<6}{'(start)':<11}[{start}]")
+    for index, step in enumerate(trace, start=1):
+        pending = ", ".join(step["pending"])
+        print(f"{index:<6}{step['processed']:<11}[{pending}]")

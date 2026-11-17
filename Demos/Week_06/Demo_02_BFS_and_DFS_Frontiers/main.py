@@ -3,7 +3,7 @@
 from collections import deque
 from graph_data import GRAPH
 from graph_support import require_known_node, require_valid_references, record_step
-from graph_display import show_reachable, show_trace
+from graph_display import show_frontier, show_reachable, show_trace
 from console_style import print_color
 
 
@@ -74,6 +74,10 @@ def main():
     show_trace("BFS: queue front is on the left", bfs_trace, "Discovered")
     show_trace("DFS: stack top is on the right", dfs_trace, "Processed so far")
     print("Rows show new visits; DFS skips any remaining already-processed entries.")
+    show_frontier("BFS queue: FRONT -> REAR", bfs_trace, "Library",
+                  "Removes the front item, then adds newly discovered neighbors at the rear.")
+    show_frontier("DFS stack: BOTTOM -> TOP", dfs_trace, "Library",
+                  "Removes the top item, then pushes eligible neighbors onto the top.")
     print(f"\nAdjacency entries examined: BFS {bfs_edges}; DFS {dfs_edges}.")
     print("Each of the five undirected connections has two adjacency entries.")
     print("Core traversal work is O(V + E); teaching snapshots and sorting add work.")

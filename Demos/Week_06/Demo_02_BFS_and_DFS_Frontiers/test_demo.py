@@ -1,7 +1,12 @@
 """Instructor checks for traversal behavior; unusual cases are not another lesson."""
 
 from copy import deepcopy
+from contextlib import redirect_stdout
+from io import StringIO
+import main
+import main2
 from main import GRAPH, breadth_first, depth_first, traverse
+from graph_display import show_frontier
 
 
 def expect_value_error(function, *args):
@@ -44,8 +49,42 @@ def self_check():
     assert GRAPH == original
 
 
+def check_frontier_tables():
+    """Check compact tables, real DFS duplicates, and both entry points."""
+    outputs = []
+    for module in (main, main2):
+        output = StringIO()
+        with redirect_stdout(output):
+            module.main()
+        outputs.append(output.getvalue())
+    assert outputs[0] == outputs[1]
+    teaching, bfs_table = outputs[0].split("\nBFS queue: FRONT -> REAR\n")
+    bfs_table, dfs_table = bfs_table.split("\nDFS stack: BOTTOM -> TOP\n")
+    assert "Teaching view - BFS:" in teaching
+    assert "Teaching view - DFS:" in teaching
+    assert bfs_table.startswith(
+        "Removes the front item, then adds newly discovered neighbors at the rear.\n"
+        "Step  Processed  Contents\n0     (start)    [Library]\n"
+    )
+    assert dfs_table.startswith(
+        "Removes the top item, then pushes eligible neighbors onto the top.\n"
+        "Step  Processed  Contents\n0     (start)    [Library]\n"
+    )
+    assert "1     Library    [Atrium, Lab]\n" in bfs_table
+    assert "5     Studio     []\n" in bfs_table
+    assert "1     Library    [Lab, Atrium]\n" in dfs_table
+    assert "4     Studio     [Lab, Lab]\n5     Lab        [Lab]\n" in dfs_table
+    _, trace, _ = depth_first(GRAPH, "Annex")
+    output = StringIO()
+    with redirect_stdout(output):
+        show_frontier("DFS stack: BOTTOM -> TOP", trace, "Annex",
+                      "Removes the top item, then pushes eligible neighbors onto the top.")
+    assert "0     (start)    [Annex]\n1     Annex      []\n" in output.getvalue()
+
+
 if __name__ == "__main__":
     if not __debug__:
         raise RuntimeError("Run verification without Python optimization (-O).")
     self_check()
+    check_frontier_tables()
     print("Checks passed.")
