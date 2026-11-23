@@ -35,9 +35,21 @@ Keep these five runtime modules beside your own main.py:
 - app_runner.py: staged reports and independent stage-3 experimental copies.
 - console_style.py: reusable console colors; redirected output remains plain.
 
-Use README_Template.md for brief personal notes. Write your own test_assignment.py.
-No full starter/walkthrough is included initially; use the daily demos and ask
-for targeted help. Instructor solution/ is withheld until grading ends.
+Use README_Template.md for brief personal notes. Optional English-first scaffolds
+are provided in [starter/main.py](starter/main.py) and
+[starter/test_assignment.py](starter/test_assignment.py). Copy these two files
+beside the five runtime modules above; run the copied files from that working
+folder, not from inside starter/. Keep one active application and test file.
+
+The starter labels stages 1 (Nov 23), 2 (Nov 24) and 3 (Nov 30). Set STAGE in
+main.py and TEST_STAGE in test_assignment.py to the stage you are completing.
+Both begin at 1; use 3 for the complete final submission. Later-stage functions
+are not called early. Unfinished algorithms/tests raise NotImplementedError
+until completed; that is expected. One small test example is supplied; complete
+the remaining English checklists with your own assertions. You may instead
+create your own files using the contracts below. No separate walkthrough or
+support-use response is required. Instructor solution/ stays withheld until
+grading ends.
 
 Create main.py with a short purpose docstring for every function. Call the supplied
 runner from your normal entry point; use only completed functions at each stage:
